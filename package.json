@@ -9,9 +9,10 @@
   "license": "ISC",
   "author": "Fernando Alves",
   "type": "module",
-  "main": "src/app.js",
+  "main": "src/app.ts",
   "scripts": {
-    "dev": "node --watch src/app.ts",
+    "typecheck": "tsc --noEmit",
+    "dev": "npm run typecheck && node --watch src/app.ts",
     "start": "node src/app.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
