@@ -1,7 +1,8 @@
 import express, { 
   type Express, 
   type Request, 
-  type Response 
+  type Response,
+  type NextFunction
 } from 'express';
 
 const app: Express = express();
@@ -14,8 +15,20 @@ type Task = {
 
 let count = 0;
 const tasks: Task[] = [];
+const POSITIVE_INTEGER_REGEX = /^[1-9]\d*$/;
 
 app.use(express.json());
+
+function validateTaskId(req: Request, res: Response, next: NextFunction) {
+  const { id } = req.params;
+  const isValidId = typeof id === 'string' && POSITIVE_INTEGER_REGEX.test(id);
+
+  if (!isValidId) {
+    return res.status(400).send({ error: 'Invalid task ID' });
+  }
+
+  next();
+}
 
 app.get('/health', (req: Request, res: Response) => {
   res.status(200).send({ status: 'ok' });
@@ -45,9 +58,9 @@ app.post('/tasks', (req: Request, res: Response) => {
   res.status(201).send(task);
 });
 
-app.get('/tasks/:id', (req: Request, res: Response) => {
+app.get('/tasks/:id', validateTaskId, (req: Request, res: Response) => {
   const { id } = req.params;
-
+  
   const task = tasks.find(t => t.id === Number(id));
 
   if (!task) {
@@ -57,30 +70,42 @@ app.get('/tasks/:id', (req: Request, res: Response) => {
   res.status(200).send(task);
 });
 
-app.patch('/tasks/:id', (req: Request, res: Response) => {
+app.patch('/tasks/:id', validateTaskId, (req: Request, res: Response) => {
   const { id } = req.params;
   const { title, done } = req.body ?? {};
+  
+  if (done !== undefined && typeof done !== 'boolean') {
+    return res.status(400).send({ error: 'Done must be a boolean' });
+  }
 
+  if(title !== undefined && (typeof title !== 'string' || title.trim() === '')) {
+    return res.status(400).send({ error: 'Title must be a non-empty string' });
+  }
+  
+  if (title === undefined && done === undefined) {
+    return res.status(400).send({ error: 'At least one field (title or done) is required' });
+  }
+  
   const task = tasks.find(t => t.id === Number(id));
-
+  
   if (!task) {
     return res.status(404).send({ error: 'Task not found' });
   }
   
-  if (title && typeof title === 'string' && title.trim() !== '') {
+  if (title !== undefined) {
     task.title = title.trim();
   }
 
-  if (done !== undefined && typeof done === 'boolean') {
+  if (done !== undefined) {
     task.done = done;
   }
 
   res.status(200).send(task);
 });
 
-app.delete('/tasks/:id', (req: Request, res: Response) => {
+app.delete('/tasks/:id', validateTaskId, (req: Request, res: Response) => {
   const { id } = req.params;
-
+  
   const taskIndex = tasks.findIndex(t => t.id === Number(id));
 
   if (taskIndex === -1) {
@@ -89,7 +114,7 @@ app.delete('/tasks/:id', (req: Request, res: Response) => {
 
   tasks.splice(taskIndex, 1);
 
-  res.status(200).send({ message: 'Task deleted' });
+  res.status(204).send();
 });
 
 app.listen(3000);

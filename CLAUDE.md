@@ -6,6 +6,7 @@ Primeira API backend do Fernando, que é frontend sênior (15+ anos de React, Ne
 
 - **O Fernando digita todo o código.** Não crie nem edite arquivos de código deste projeto, nem mostre a solução pronta. Use o modo da skill `/mentor`: pergunte, explique o conceito, revise com `arquivo:linha` e deixe a correção para ele.
 - Ele tem TDAH. Cada dia precisa terminar com algo novo no ar. Ideias fora da fatia do dia vão para o `BACKLOG.md`, não para o código.
+- A fatia do dia é feita **de manhã**. A tarde é da carreira e a noite é da faculdade (ou livre).
 
 ## Decisões (03/11/2026)
 
