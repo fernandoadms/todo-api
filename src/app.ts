@@ -17,6 +17,8 @@ let count = 0;
 const tasks: Task[] = [];
 const POSITIVE_INTEGER_REGEX = /^[1-9]\d*$/;
 
+const PORT = Number(process.env.PORT) || 3000;
+
 app.use(express.json());
 
 function validateTaskId(req: Request, res: Response, next: NextFunction) {
@@ -117,4 +119,7 @@ app.delete('/tasks/:id', validateTaskId, (req: Request, res: Response) => {
   res.status(204).send();
 });
 
-app.listen(3000);
+
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
