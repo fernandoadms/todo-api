@@ -48,3 +48,9 @@ Thumbs.db
 
 # AI generated files
 CLAUDE.md
+
+# AI Tools
+.agents/
+.claude/
+.cursor/
+.devin/

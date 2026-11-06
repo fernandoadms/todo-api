@@ -2,15 +2,8 @@
 
 Ideias e problemas encontrados fora da fatia do dia.
 
-## Pendente da fatia 2
-
-A fatia 2 foi entregue em 04/11, no commit `82bcba1`: os 5 endpoints foram testados por curl na URL pública. Falta só um item:
-
-- **Confirmar o portão de tipos no Render.** O Build Command precisa ser `npm install && npm run typecheck`. No log do deploy, procure a linha `> tsc --noEmit`. Se ela não estiver lá, o código com erro de tipo continua indo para produção.
-
 ## Infra e configuração
 
-- **Porta vinda do ambiente — EM ANDAMENTO, o app não sobe.** Em 04/11 às 11:50, o `src/app.ts` ficou sem commit e quebrado: `src/app.ts:20` lê `process.env.API_URL` com padrão `'http://localhost:4000'`, e `src/app.ts:123` passa essa URL para o `app.listen`, que falha com `listen EACCES`. Faltam duas correções: ler a variável que o Render cria (`PORT`) e passar uma **porta** para o `listen`, com `3000` como padrão. Teste: `PORT=4000 npm run dev` deve subir na 4000, e `npm run dev` na 3000. **Não faça commit antes disso.** Produção está segura no commit `82bcba1`.
 - **Fixar a versão do Node.** O campo `engines` foi removido do `package.json`. Rodar `.ts` direto exige Node `>=22.18.0` (sem a flag `--experimental-strip-types`). Sem esse campo, o deploy depende do Node padrão do Render.
 
 ## Respostas 500 expõem o stack trace — fatia 5 (tratamento central de erros)
@@ -34,3 +27,9 @@ TypeError: Cannot destructure property 'title' of 'req.body' as it is undefined.
 - Pesquisar o que o `NODE_ENV=production` muda no handler de erro padrão do Express.
 
 O bug que causou o 500 já foi corrigido com `req.body ?? {}`. O item aqui é a proteção para os próximos erros que ninguém previu.
+
+## Visual de referência para a todo list (frontend)
+
+**Adicionado em 05/11/2026.** Post de @ux_snacks no TikTok: https://vt.tiktok.com/ZSp2baFmg/
+
+O projeto hoje é só a API. Este item é referência para quando houver uma interface e não entra nas fatias até 07/11.
