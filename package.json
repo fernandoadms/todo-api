@@ -9,12 +9,12 @@
   "license": "ISC",
   "author": "Fernando Alves",
   "type": "module",
-  "main": "src/app.ts",
+  "main": "src/server.ts",
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "dev": "npm run typecheck && node --watch src/app.ts",
-    "start": "node src/app.ts",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "npm run typecheck && node --watch src/server.ts",
+    "start": "node src/server.ts",
+    "test": "vitest run",
     "contract:emit": "prisma contract emit"
   },
   "dependencies": {
@@ -27,6 +27,8 @@
     "@types/express": "^5.0.6",
     "@types/node": "^26.6.6",
     "prisma": "^8.0.0-rc.30",
-    "typescript": "^7.0.2"
+    "supertest": "^7.3.2",
+    "typescript": "^7.0.2",
+    "vitest": "^5.1.0"
   }
 }

@@ -20,8 +20,6 @@ type Task = {
 
 const POSITIVE_INTEGER_REGEX = /^[1-9]\d*$/;
 
-const PORT = Number(process.env.PORT) || 3000;
-
 app.use(express.json());
 
 function validateTaskId(req: Request, res: Response, next: NextFunction) {
@@ -40,7 +38,7 @@ app.get('/health', async (req: Request, res: Response) => {
 });
 
 app.get('/tasks', async (req: Request, res: Response) => {
-  const tasks = await db.orm.public.Task.select("id", "title", "done", "createdAt", "updatedAt").all();
+  const tasks: Task[] = await db.orm.public.Task.select("id", "title", "done", "createdAt", "updatedAt").all();
   
   res.status(200).send(tasks);
 });
@@ -52,7 +50,7 @@ app.post('/tasks', async (req: Request, res: Response) => {
     return res.status(400).send({ error: 'Title is required' });
   }
 
-  const task = await db.orm.public.Task.create({
+  const task: Task = await db.orm.public.Task.create({
     title: title.trim(),
     done: false,
   });
@@ -118,7 +116,4 @@ app.delete('/tasks/:id', validateTaskId, async (req: Request, res: Response) => 
   res.status(204).send();
 });
 
-
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+export default app;

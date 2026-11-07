@@ -33,3 +33,7 @@ O bug que causou o 500 já foi corrigido com `req.body ?? {}`. O item aqui é a 
 **Adicionado em 05/11/2026.** Post de @ux_snacks no TikTok: https://vt.tiktok.com/ZSp2baFmg/
 
 O projeto hoje é só a API. Este item é referência para quando houver uma interface e não entra nas fatias até 07/11.
+
+## Verificar o teste de regressão do PATCH
+
+**Fazer depois de concluir as tarefas atuais no TickTick.** Remover temporariamente a validação de título não vazio no `PATCH /tasks/:id` e rodar `npm test`. Confirmar que o teste para `{"title":""}` falha; em seguida, restaurar a validação e confirmar que a suíte volta a passar. Não deixar a remoção acidental no código.

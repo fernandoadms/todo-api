@@ -32,6 +32,7 @@ out/
 # Testing and Coverage
 coverage/
 .nyc_output/
+.vitest/
 
 # IDE / Editor folders
 .vscode/
